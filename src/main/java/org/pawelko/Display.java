@@ -14,6 +14,7 @@ public class Display extends JPanel implements ITracker {
 
     Position current = null;
 
+    Color pathColor =  new Color(0x00, 0x50, 0xc0, 0x90);
     int pxSize = 20;
 
     Display(Maze maze) {
@@ -37,7 +38,6 @@ public class Display extends JPanel implements ITracker {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(e);
                 block(e.getX(), e.getY());
             }
 
@@ -86,29 +86,28 @@ public class Display extends JPanel implements ITracker {
             maze.mData[row][col] |= Maze.BLOCKED;
 
         }
-
         repaint();
+    }
+
+    private void paintBlock(Graphics g, int row, int col, Color color) {
+        var x = col * pxSize;
+        var y = row * pxSize;
+        g.setColor(color);
+        g.fillRect(x, y, pxSize, pxSize);
+        g.setColor(Color.white);
+        g.drawRect(x, y, pxSize, pxSize);
+    }
+
+    private void paintBlock(Graphics g, int row, int col) {
+        var color = maze.blocked(row, col) ? Color.black : Color.lightGray;
+        paintBlock(g, row, col, color);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponents(g);
-        for (var row = 0; row < maze.rows(); ++row) {
-            for (var col = 0; col < maze.cols(); ++col) {
-                var x = col * pxSize;
-                var y = row * pxSize;
 
-                var color = Color.lightGray;
-                if ((maze.get(row, col) & Maze.BLOCKED) != 0)
-                    color = Color.black;
-//                if (maze.visited(row, col))
-//                    color = Color.gray;
-                g.setColor(color);
-                g.fillRect(x, y, pxSize, pxSize);
-                g.setColor(Color.white);
-                g.drawRect(x, y, pxSize, pxSize);
-            }
-        }
+        maze.walk((row, col) -> paintBlock(g, row, col));
 
         if (current != null)
         {
@@ -121,11 +120,7 @@ public class Display extends JPanel implements ITracker {
 
         if (path != null) {
             for (var element : path.elements()) {
-                var x = element.col * pxSize;
-                var y = element.row * pxSize;
-                Color c = new Color(0x00, 0x50, 0xc0, 0x90);
-                g.setColor(c);
-                g.fillRect(x, y, pxSize, pxSize);
+                paintBlock(g, element.row, element.col, pathColor);
             }
         }
     }

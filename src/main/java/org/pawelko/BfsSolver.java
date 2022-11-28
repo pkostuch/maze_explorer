@@ -2,7 +2,7 @@ package org.pawelko;
 
 import java.util.*;
 
-public class Solver implements ISolver {
+public class BfsSolver implements ISolver {
 
     private static class Cost {
         int cost;
@@ -36,7 +36,7 @@ public class Solver implements ISolver {
 
     int visited = 0;
 
-    Solver(ITracker tracker) {
+    BfsSolver(ITracker tracker) {
         this.tracker = tracker;
     }
 

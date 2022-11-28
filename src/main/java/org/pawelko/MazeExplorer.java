@@ -25,7 +25,7 @@ public class MazeExplorer extends JFrame implements ActionListener {
 
     private ISolver create(String algorithm) {
         if (algorithm.equals(ALGO_BFS))
-            return new Solver(display);
+            return new BfsSolver(display);
         else if (algorithm.equals(ALGO_DIJKSTRA))
             return new DijkstraSolver();
         return null;

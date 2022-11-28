@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Path {
 
-    private List<Position> mElements = List.of();
+    private List<Position> elements;
 
     public Path(List<Position> elements) {
-        mElements = elements;
+        this.elements = elements;
     }
 
     List<Position> elements() {
-        return mElements;
+        return elements;
     }
 
 }
