@@ -14,11 +14,11 @@ public class Display extends JPanel implements ITracker {
 
     Position current = null;
 
-    Color pathColor =  new Color(0x00, 0x50, 0xc0, 0x90);
+    Color pathColor = new Color(0x00, 0x50, 0xc0, 0x90);
     int pxSize = 20;
 
     Display(Maze maze) {
-       setMaze(maze);
+        setMaze(maze);
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -79,12 +79,11 @@ public class Display extends JPanel implements ITracker {
     private void block(int x, int y) {
         var col = x / pxSize;
         var row = y / pxSize;
-        if (0 != (maze.mData[row][col] & Maze.BLOCKED)) {
+        if (maze.blocked(row, col)) {
             maze.mData[row][col] &= ~Maze.BLOCKED;
 
         } else {
             maze.mData[row][col] |= Maze.BLOCKED;
-
         }
         repaint();
     }
@@ -109,8 +108,7 @@ public class Display extends JPanel implements ITracker {
 
         maze.walk((row, col) -> paintBlock(g, row, col));
 
-        if (current != null)
-        {
+        if (current != null) {
             var x = current.col * pxSize;
             var y = current.row * pxSize;
             g.setColor(Color.cyan);

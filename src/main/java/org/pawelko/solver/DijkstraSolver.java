@@ -1,19 +1,16 @@
-package org.pawelko;
+package org.pawelko.solver;
+
+import org.pawelko.Maze;
+import org.pawelko.Path;
+import org.pawelko.Position;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class DijkstraSolver implements ISolver {
 
-    private static class Cost {
-        Position position;
-        int cost;
-
-        Cost(Position position, int cost) {
-            this.position = position;
-            this.cost = cost;
-        }
+    public DijkstraSolver() {
     }
+
     @Override
     public Path solve(Maze maze, Position source, Position destination) {
 
@@ -22,15 +19,13 @@ public class DijkstraSolver implements ISolver {
         var queue = new Vector<Position>();
 
 
-
-        for(var row = 0; row < maze.rows(); ++row){
-            for(var col = 0; col < maze.cols(); ++col) {
+        for (var row = 0; row < maze.rows(); ++row) {
+            for (var col = 0; col < maze.cols(); ++col) {
                 if (maze.blocked(row, col))
                     continue;
-                if (source.row == row && source.col == col){
+                if (source.row == row && source.col == col) {
                     distance.put(Position.of(row, col), 0);
-                }
-                else {
+                } else {
                     distance.put(Position.of(row, col), Integer.MAX_VALUE);
                 }
                 queue.add(Position.of(row, col));
@@ -38,12 +33,11 @@ public class DijkstraSolver implements ISolver {
             }
         }
 
-        while(!queue.isEmpty())
-        {
+        while (!queue.isEmpty()) {
             var cost = Integer.MAX_VALUE;
             Position current = null;
             for (var n : queue) {
-                if(distance.get(n) < cost) {
+                if (distance.get(n) < cost) {
                     cost = distance.get(n);
                     current = n;
                 }

@@ -5,19 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
 public class MazeTest {
 
-    Maze maze = new Maze(4,5);
-
-    @ParameterizedTest
-    @MethodSource("provideParamsForCheckValid")
-    void checkValid(int row, int col, boolean result) {
-        Assertions.assertEquals(result, maze.valid(row, col));
-    }
+    Maze maze = new Maze(4, 5);
 
     static Stream<Arguments> provideParamsForCheckValid() {
         return Stream.of(
@@ -29,5 +22,11 @@ public class MazeTest {
                 Arguments.of(4, 0, false),
                 Arguments.of(3, 5, false)
         );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideParamsForCheckValid")
+    void checkValid(int row, int col, boolean result) {
+        Assertions.assertEquals(result, maze.valid(row, col));
     }
 }

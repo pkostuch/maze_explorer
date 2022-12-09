@@ -13,35 +13,6 @@ public class MazeSnapshot {
 
     private int[] data;
 
-    public int getRows() {
-        return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    public int getCols() {
-        return cols;
-    }
-
-    public void setCols(int cols) {
-        this.cols = cols;
-    }
-
-    public int[] getData() {
-        return data;
-    }
-
-    public void setData(int[] data) {
-        this.data = data;
-    }
-
-    public boolean valid() {
-        var size = cols * rows;
-        return size == data.length;
-    }
-
     public static MazeSnapshot create(Maze maze) {
         var mazeSnapshot = new MazeSnapshot();
         mazeSnapshot.setCols(maze.cols());
@@ -78,5 +49,34 @@ public class MazeSnapshot {
         } catch (IOException e) {
             return Optional.empty();
         }
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public void setCols(int cols) {
+        this.cols = cols;
+    }
+
+    public int[] getData() {
+        return data;
+    }
+
+    public void setData(int[] data) {
+        this.data = data;
+    }
+
+    public boolean valid() {
+        var size = cols * rows;
+        return size == data.length;
     }
 }

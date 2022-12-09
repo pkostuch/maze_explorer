@@ -1,42 +1,21 @@
-package org.pawelko;
+package org.pawelko.solver;
+
+import org.pawelko.ITracker;
+import org.pawelko.Maze;
+import org.pawelko.Path;
+import org.pawelko.Position;
 
 import java.util.*;
 
 public class BfsSolver implements ISolver {
 
-    private static class Cost {
-        int cost;
-        Position through;
-
-        Cost(int cost, Position through) {
-            this.cost = cost;
-            this.through = through;
-        }
-
-        public static Cost of(int cost, Position through) {
-            return new Cost(cost, through);
-        }
-
-        @Override
-        public String toString() {
-            return "Cost{" +
-                    "cost=" + cost +
-                    ", through=" + through +
-                    '}';
-        }
-    }
-
+    private final Cost infinity = new Cost(Integer.MAX_VALUE, null);
+    Map<Position, Cost> costs = new HashMap<>();
+    int visited = 0;
     private ITracker tracker;
-
     private Maze maze = null;
 
-    private final Cost infinity = new Cost(Integer.MAX_VALUE, null);
-
-    Map<Position, Cost> costs = new HashMap<>();
-
-    int visited = 0;
-
-    BfsSolver(ITracker tracker) {
+    public BfsSolver(ITracker tracker) {
         this.tracker = tracker;
     }
 
@@ -72,23 +51,22 @@ public class BfsSolver implements ISolver {
         return new Path(path);
     }
 
-    void explore_bfs(Position start)
-    {
+    void explore_bfs(Position start) {
 
         Vector<Position> moves = new Vector<>();
         moves.add(start);
 
-        while(!moves.isEmpty()) {
+        while (!moves.isEmpty()) {
             var current = moves.remove(0);
             var row = current.row;
             var col = current.col;
             if (maze.visited(row, col))
                 continue;
-            tracker.setCurrent(current);
-            tracker.step();
+//            tracker.setCurrent(current);
+//            tracker.step();
 
 
-            maze.mData[row][col] |= Maze.VISITED;
+            maze.setVisited(row, col);
             var cost = cost(current);
 
             var next = List.of(Position.of(row + 1, col),
@@ -116,7 +94,7 @@ public class BfsSolver implements ISolver {
             return;
 
         visited++;
-        maze.mData[current.row][current.col] |= Maze.VISITED;
+        maze.setVisited(current.row, current.col);
 
         var row = current.row;
         var col = current.col;
@@ -134,6 +112,28 @@ public class BfsSolver implements ISolver {
                 }
                 explore(pos);
             }
+        }
+    }
+
+    private static class Cost {
+        int cost;
+        Position through;
+
+        Cost(int cost, Position through) {
+            this.cost = cost;
+            this.through = through;
+        }
+
+        public static Cost of(int cost, Position through) {
+            return new Cost(cost, through);
+        }
+
+        @Override
+        public String toString() {
+            return "Cost{" +
+                    "cost=" + cost +
+                    ", through=" + through +
+                    '}';
         }
     }
 }

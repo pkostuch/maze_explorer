@@ -21,41 +21,41 @@ public class Maze {
         reset();
     }
 
-    int rows() {
+    public int rows() {
         return mRows;
     }
 
-    int cols() {
+    public int cols() {
         return mCols;
     }
 
-    int get(int row, int col) {
+    public int get(int row, int col) {
         return mData[row][col];
     }
 
-    boolean valid(int row, int col) {
+    public boolean valid(int row, int col) {
         return (row >= 0 && row < mRows && col >= 0 && col < mCols);
     }
 
-    boolean blocked(int row, int col)
-    {
+    public boolean blocked(int row, int col) {
         return 0 != (mData[row][col] & BLOCKED);
     }
 
-    void reset() {
+    public void reset() {
         for (int[] mDatum : mData) {
             Arrays.fill(mDatum, 0);
         }
     }
 
-    void walk(BiConsumer<Integer, Integer> consumer) {
+    public void walk(BiConsumer<Integer, Integer> consumer) {
         for (var row = 0; row < rows(); ++row) {
             for (var col = 0; col < cols(); ++col) {
                 consumer.accept(row, col);
             }
         }
     }
-    void clear() {
+
+    public void clear() {
         for (var row = 0; row < rows(); ++row) {
             for (var col = 0; col < cols(); ++col) {
                 mData[row][col] &= ~Maze.VISITED;
@@ -63,9 +63,12 @@ public class Maze {
         }
     }
 
-    boolean visited(int row, int col)
-    {
-        return  0 != (mData[row][col] & VISITED);
+    public boolean visited(int row, int col) {
+        return 0 != (mData[row][col] & VISITED);
+    }
+
+    public void setVisited(int row, int col) {
+        mData[row][col] |= VISITED;
     }
 
 }

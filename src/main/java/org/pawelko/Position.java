@@ -3,12 +3,16 @@ package org.pawelko;
 import java.util.Objects;
 
 public class Position {
-    int row;
-    int col;
+    public final int row;
+    public final int col;
 
     Position(int row, int col) {
         this.row = row;
         this.col = col;
+    }
+
+    public static Position of(int row, int col) {
+        return new Position(row, col);
     }
 
     @Override
@@ -30,9 +34,5 @@ public class Position {
                 "row=" + row +
                 ", col=" + col +
                 '}';
-    }
-
-    public static Position of(int row, int col) {
-        return new Position(row, col);
     }
 }
